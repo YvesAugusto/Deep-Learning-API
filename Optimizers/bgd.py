@@ -36,7 +36,6 @@ class BGD:
         Y_ = []
         I = []
         origo = []
-
         for i in range(int(len(X) / 32)):
             self.grad_w = np.array([np.zeros(layer.W.shape) for layer in layers])
             self.grad_b = np.array([np.zeros(layer.b.shape) for layer in layers])
