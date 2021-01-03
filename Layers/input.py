@@ -1,12 +1,14 @@
 import numpy as np
-from layer import Layer
+from Layers.layer import Layer
 
-class Dense(Layer):
 
-    def __init__(self, units, input_shape=None, activation_function='relu'):
+class Input(Layer):
+
+    def __init__(self, input_shape, units, activation_function='relu'):
         self.__int__(activation_function=activation_function)
         self.input_shape = input_shape
         self.units = units
+        self.init_weights()
 
     def forward(self, X):
         if self.activation_function == 'sigmoid':
