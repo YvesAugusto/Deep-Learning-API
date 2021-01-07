@@ -122,11 +122,9 @@ class Model:
         evals = []
         for e in range(epochs):
             lr -= ((lr_0 - alfa) / epochs)
-            Y = self.optimizer.batch_forward(X, T, self.forward, self.backward, self.layers, self.deltas, alfa)
-            # print(self.layers[-1].W, self.layers[-1].b)
-            # for idx, x in enumerate(X):
-            #     I, Y, original_x = self.forward(x)
-            #     self.backward(T[idx], Y, I, original_x, alfa)
+            Y = self.optimizer.batch_forward(X = X, T = T, forward = self.forward,
+                                             batch_size=batch_size, layers = self.layers,
+                                             deltas = self.deltas, alfa = lr)
             if (e) % 10 == 0:
                 eval = self.evaluate(T, X)
                 evals.append(eval)
