@@ -100,6 +100,19 @@ class Model:
         X = validation_data[0]
         return self.evaluate(T, X)
 
+    def plot_loss(self, epochs):
+        plt.plot(epochs, self.losses)
+        plt.ylabel('loss')
+        plt.xlabel('epoch')
+        plt.show()
+
+    def plot_acc(self, epochs_, evals, tests_eval):
+        plt.plot(epochs_, evals)
+        plt.plot(epochs_, tests_eval)
+        plt.title('model accuracy')
+        plt.legend(['train', 'val'], loc='upper left')
+        plt.show()
+
     def fit(self, X, T, validation_data=None, batch_size=1, epochs=10000, alfa=1e-4):
         epochs_ = []
         lr_0 = 5*1e-4
@@ -127,15 +140,8 @@ class Model:
                     print(f'epoch {e} lr: {lr}, loss: {loss_}, eval: {eval}, val: {eval_}')
                 if eval > 0.95:
                     print(f'early stopping cause reached good acc: {eval}')
-                    plt.plot(epochs_, self.losses)
-                    plt.ylabel('loss')
-                    plt.xlabel('epoch')
-                    plt.show()
-                    plt.plot(epochs_, evals)
-                    plt.plot(epochs_, tests_eval)
-                    plt.title('model accuracy')
-                    plt.legend(['train', 'val'], loc='upper left')
-                    plt.show()
+                    self.plot_loss(epochs_, self.losses)
+                    self.plot_acc(epochs_, evals, tests_eval)
                     return
 
                 if eval < 0.2:
