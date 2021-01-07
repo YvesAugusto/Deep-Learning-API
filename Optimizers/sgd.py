@@ -31,7 +31,7 @@ class SGD:
         self.grad_b[0] += deltas[0].sum(axis=0)
         # layers[0].backward(grad_w, grad_b, alfa)
 
-    def batch_forward(self, X, T, forward, backward, layers, deltas, alfa):
+    def batch_forward(self, X, T, forward, batch_size, layers, deltas, alfa):
         Y = []
         self.grad_w = np.array([np.zeros(layer.W.shape) for layer in layers])
         self.grad_b = np.array([np.zeros(layer.b.shape) for layer in layers])

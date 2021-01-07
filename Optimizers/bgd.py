@@ -31,20 +31,20 @@ class BGD:
         self.grad_b[0] += deltas[0].sum(axis=0)
         # layers[0].backward(grad_w, grad_b, alfa)
 
-    def batch_forward(self, X, T, forward, backward, layers, deltas, alfa):
+    def batch_forward(self, X, T, forward, batch_size, layers, deltas, alfa):
         Y = []
         Y_ = []
         I = []
         origo = []
-        batch = 32
+        batch_size = 32
 
-        for i in range(batch):
+        for i in range(batch_size):
             self.grad_w = np.array([np.zeros(layer.W.shape) for layer in layers])
             self.grad_b = np.array([np.zeros(layer.b.shape) for layer in layers])
-            tam = len(X[i*batch : (i+1)*batch])
-            for idx, x in enumerate(X[i*batch : (i+1)*batch]):
+            tam = len(X[i*batch_size : (i+1)*batch_size])
+            for idx, x in enumerate(X[i*batch_size : (i+1)*batch_size]):
                 I, Y, original_x = forward(x)
-                self.backward(T[i*batch : (i+1)*batch][idx], Y, I, layers, deltas, original_x, alfa)
+                self.backward(T[i*batch_size : (i+1)*batch_size][idx], Y, I, layers, deltas, original_x, alfa)
 
             self.grad_w /= tam
             self.grad_b /= tam
