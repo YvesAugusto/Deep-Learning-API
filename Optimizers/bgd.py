@@ -36,19 +36,19 @@ class BGD:
         Y_ = []
         I = []
         origo = []
+        batch = 32
 
-        for i in range(int(len(X) / 32)):
+        for i in range(batch):
             self.grad_w = np.array([np.zeros(layer.W.shape) for layer in layers])
             self.grad_b = np.array([np.zeros(layer.b.shape) for layer in layers])
-            for idx, x in enumerate(X[i*32 : (i+1)*32]):
+            tam = len(X[i*batch : (i+1)*batch])
+            for idx, x in enumerate(X[i*batch : (i+1)*batch]):
                 I, Y, original_x = forward(x)
-                self.backward(T[idx], Y, I, layers, deltas, original_x, alfa)
+                self.backward(T[i*batch : (i+1)*batch][idx], Y, I, layers, deltas, original_x, alfa)
 
-            self.grad_w /= len(X)
-            self.grad_b /= len(X)
+            self.grad_w /= tam
+            self.grad_b /= tam
             for idl, layer in enumerate(layers):
                 layer.backward(self.grad_w[idl], self.grad_b[idl], alfa)
-
-
 
         return Y[-1]

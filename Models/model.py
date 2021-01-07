@@ -102,18 +102,18 @@ class Model:
 
     def fit(self, X, T, validation_data=None, batch_size=1, epochs=10000, alfa=1e-4):
         epochs_ = []
-        lr_0 = 1e-3
-        lr = 1e-3
+        lr_0 = 5*1e-4
+        lr = 5*1e-4
         if validation_data:
             tests_eval = []
         evals = []
         for e in range(epochs):
             lr -= ((lr_0 - alfa) / epochs)
-            # Y = self.optimizer.batch_forward(X, T, self.forward, self.backward, self.layers, self.deltas, lr)
+            Y = self.optimizer.batch_forward(X, T, self.forward, self.backward, self.layers, self.deltas, alfa)
             # print(self.layers[-1].W, self.layers[-1].b)
-            for idx, x in enumerate(X):
-                I, Y, original_x = self.forward(x)
-                self.backward(T[idx], Y, I, original_x, alfa)
+            # for idx, x in enumerate(X):
+            #     I, Y, original_x = self.forward(x)
+            #     self.backward(T[idx], Y, I, original_x, alfa)
             if (e) % 10 == 0:
                 eval = self.evaluate(T, X)
                 evals.append(eval)
@@ -138,7 +138,7 @@ class Model:
                     plt.show()
                     return
 
-                if eval < 0.32:
+                if eval < 0.2:
                     print(f'Failed')
                     return
 
